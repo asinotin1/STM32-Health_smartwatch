@@ -1,4 +1,5 @@
 SMARTWACH:
+
   Measures ambient temperature and humidity
   
   Measures heart rate and SpO₂
