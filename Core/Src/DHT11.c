@@ -89,7 +89,7 @@ uint8_t DHT11_ReadByte(void)
     if(timeout == 0) return 0;
     
     
-    delay_us(40);
+    delay_us(60);
     
     
     data <<= 1;
