@@ -26,16 +26,16 @@ void DHT11_SetInput(void)
 uint8_t DHT11_Start(void)
 {
   uint16_t timeout = 0;
-  __disable_irq();
+  
   
   
   DHT11_SetOutput();
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);
   
  
-  __enable_irq();
+  
   HAL_Delay(18);  
-  __disable_irq();
+ 
   
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
   delay_us(30);
@@ -47,7 +47,7 @@ uint8_t DHT11_Start(void)
     delay_us(1);
   }
   if(timeout == 0) {
-    __enable_irq(); 
+   
     return 0;
   }
   
@@ -66,7 +66,7 @@ uint8_t DHT11_Start(void)
     delay_us(1);
   }
   if(timeout == 0) {
-    __enable_irq();
+    
     return 0;
   }
   
@@ -121,7 +121,7 @@ uint8_t DHT11_ReadData(void)
   uint8_t data[5] = {0};
   
   if(!DHT11_Start()) {
-    __enable_irq();
+    
     return 0;
   }
   
@@ -131,7 +131,7 @@ uint8_t DHT11_ReadData(void)
   }
   
 
-  __enable_irq();
+ 
   
 
   uint8_t checksum = data[0] + data[1] + data[2] + data[3];
