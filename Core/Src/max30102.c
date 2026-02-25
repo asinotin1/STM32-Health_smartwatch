@@ -27,9 +27,9 @@ void maxim_max30102_init()
     maxim_max30102_write_reg(REG_FIFO_CONFIG, 0x5fU); //sample avg = 4, fifo rollover=true, fifo almost full = 17
     maxim_max30102_write_reg(REG_MODE_CONFIG, 0x03U); // //0x02 for Red only, 0x03 for SpO2 mode 0x07 multimode LED
     maxim_max30102_write_reg(REG_SPO2_CONFIG, 0x23U); // ADC 18BIT SP02 : 50 HZ
-    maxim_max30102_write_reg(REG_LED1_PA, 0x30);  // ≈ 9.6 mA led1
-    maxim_max30102_write_reg(REG_LED2_PA, 0x30); // ≈ 9.6 mA led2
-    maxim_max30102_write_reg(REG_PILOT_PA, 0x7fU);
+    maxim_max30102_write_reg(REG_LED1_PA, 0x30);  // ≈ 9.6 mA led1 (red led)
+    maxim_max30102_write_reg(REG_LED2_PA, 0x30); // ≈ 9.6 mA led2 (ir led )
+    maxim_max30102_write_reg(REG_PILOT_PA, 0x7fU); // LED Pilot =  25 mA
 }
 
 void maxim_max30102_read_fifo(uint32_t *pun_red_led, uint32_t *pun_ir_led)
