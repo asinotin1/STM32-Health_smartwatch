@@ -74,103 +74,6 @@ void delay_us(uint16_t us)
 
 
 
-static uint32_t  min = 0x3FFFF; // max adc 18 bit
-static uint32_t max = 0;
-static uint32_t   before_data= 0; // lưu giá trị tín hiệu trước để so sánh với giá trị hiện tại
-static float Line_heart = 0; // đường sóng tim
-static int16_t  width= 6; // Bắt đầu từ pixel 6
-static int16_t  height= 35; // Vị trí Y giữa khung
-
-#define   max_heart  50.0f // độ cao tối đa mà sóng tim dao động
-
-void DrawHeartbeatWave(uint32_t red_value)
-{
-float temp;
-int16_t  vitri_height; // vị trí cập nhật height hiện tại
-
-// khởi tạo
-if (before_data== 0)
-{
-before_data= red_value;
-min = red_value;
-max = red_value;
-}
-
-// min and max
-if (red_value < min)
-{
-min = red_value;
-}
-
-if (red_value > max)
-{
-max = red_value;
-}
-
-
-
-// ======= TÍNH TOÁN CHUYỂN ĐỘNG =======
-if (red_value >before_data)
-{
-// Tín hiệu TĂNG → Đồ thị đi XUỐNG
-f_temp = (float)(red_value -before_data); // giá trị tăng bao nhiêu
-f_temp /= (float)(max - min); // tỉ lệ % thay đổi
-f_temp *= max_heart ; // phóng to đường line
-Line_heart -= f_temp; // đường tim đi xuống
-
-if (Line_heart < -20.0f)
-Line_heart = -20.0f;
-}
-else
-{
-// Tín hiệu GIẢM → Đồ thị đi LÊN
-f_temp = (float)(before_data- red_value);
-f_temp /= (float)(max - min);
-f_temp *= max_heart ;
-Line_heart += f_temp; // đường tim đi lên
-
-if (Line_heart > max_heart + 20.0f)
-Line_heart = max_heart + 20.0f;
-}
-
-
-// Khung mới: Y từ 130 đến 200 (cao 70 pixel)
-// Giữa khung: Y = 165 (130 + 35)
-vitri_height= (int16_t)Line_heart + 35; // tính từ line_heart
-
-// Chuyển sang tọa độ màn hình thực
-int16_t screen_y_old = 165 - height;
-int16_t screen_y_new = 165 - vitri_height;
-
-// Giới hạn trong khung (131 đến 199)
-if (screen_y_old < 131) screen_y_old = 131;
-if (screen_y_old > 199) screen_y_old = 199;
-if (screen_y_new < 131) screen_y_new = 131;
-if (screen_y_new > 199) screen_y_new = 199;
-
-// VẼ ĐƯỜNG NỐI
-ILI9341_DrawLine(width , screen_y_old, width + 2 , screen_y_new, RED);
-
-
-height= vitri_height; // lưu vị trí y hiện tại
-width += 2; // chạy sang phải 2 pixel
-
-// RESET KHI HẾT KHUNG
-if (width >= 233) // Sắp chạm viền phải (235 - 2)
-{
-// Xóa vùng vẽ (giữ lại viền)
-ILI9341_DrawFilledRectangleCoord(6, 131, 234, 199, BLACK);
-
-// Reset vị trí width
-width = 6;
-
-// Reset min/max cho chu kỳ mới
-min = 0x3FFFF;
-max = 0;
-}
-
-before_data= red_value;
-}
 
 /* USER CODE END 0 */
 
@@ -345,7 +248,7 @@ int main(void)
         }
 
       
-             DrawHeartbeatWave(red_val);
+        
         
         if (heart_rate == 0 && spo2 == 0)
         {
