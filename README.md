@@ -9,5 +9,3 @@ SMARTWACH:
   Displays real-time data
 
 
-https://drive.google.com/file/d/1anP2DKr2AQWaC65C58QJRTGx2CiiJA4w/view
-
