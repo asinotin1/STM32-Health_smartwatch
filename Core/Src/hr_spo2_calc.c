@@ -83,10 +83,10 @@ static void find_peaks_and_calculate_hr(void)
         float avg_distance;
         
         for (i = 1; i < peak_count; i++) {
-            total_distance += (peak_positions[i] - peak_positions[i-1]);
+            total_distance += (peak_positions[i] - peak_positions[i-1]); // khoảng cách giữa các đỉnh liên tiếp
         }
         
-        avg_distance = (float)total_distance / (peak_count - 1);
+        avg_distance = (float)total_distance / (peak_count - 1); // trung bình giữa các đỉnh liên tiếp 
         
         heart_rate = (int32_t)(2000.0f / avg_distance);
         
